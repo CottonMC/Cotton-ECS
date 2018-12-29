@@ -1,0 +1,14 @@
+{
+  "id": "attributes",
+  "name": "Attributes",
+  "description": "Adds an attachments system to a variety of different objects",
+  "version": "1.0.0-snapshot",
+  "side": "universal",
+  "requires": {
+    "fabric": "*"
+  },
+  "mixins": {
+    "client": "attachments.client.json",
+    "common": "attachments.common.json"
+  }
+}
