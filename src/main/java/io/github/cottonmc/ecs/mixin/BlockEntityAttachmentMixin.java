@@ -27,21 +27,21 @@ public class BlockEntityAttachmentMixin {
 		container = new SidedComponentContainerImpl();
 	}
 	
-	public <T extends Component> boolean registerExtraComponent(Direction side, Class<T> componentClass, String key, T component) {
+	public <T extends Component> boolean attachment$registerExtraComponent(Direction side, Class<T> componentClass, String key, T component) {
 		return container.registerExtraComponent(side, componentClass, key, component);
 	}
 	
-	public <T extends Component> boolean registerExtraComponent(Class<T> componentClass, String key, T component) {
+	public <T extends Component> boolean attachment$registerExtraComponent(Class<T> componentClass, String key, T component) {
 		return container.registerExtraComponent(componentClass, key, component);
 	}
 	
 	@Nullable
-	public <T extends Component> T getComponent(Direction side, Class<T> componentClass, String key) {
+	public <T extends Component> T attachment$getComponent(Direction side, Class<T> componentClass, String key) {
 		return container.getComponent(side, componentClass, key);
 	}
 	
 	@Nonnull
-	public Set<String> getComponentKeys(Direction side, Class<? extends Component> componentClass) {
+	public Set<String> attachment$getComponentKeys(Direction side, Class<? extends Component> componentClass) {
 		return container.getComponentKeys(side, componentClass);
 	}
 	

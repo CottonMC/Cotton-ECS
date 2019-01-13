@@ -29,17 +29,17 @@ public class EntityAttachmentMixin {
 		container = new ComponentContainerImpl();
 	}
 
-	public <T extends Component> boolean registerExtraComponent(Class<T> componentClass, String key, T component) {
+	public <T extends Component> boolean attachment$registerExtraComponent(Class<T> componentClass, String key, T component) {
 		return container.registerExtraComponent(componentClass, key, component);
 	}
 	
 	@Nullable
-	public <T extends Component> T getComponent(Class<T> componentClass, String key) {
+	public <T extends Component> T attachment$getComponent(Class<T> componentClass, String key) {
 		return container.getComponent(componentClass, key);
 	}
 	
 	@Nonnull
-	public Set<String> getComponentKeys(Class<? extends Component> componentClass) {
+	public Set<String> attachment$getComponentKeys(Class<? extends Component> componentClass) {
 		return container.getComponentKeys(componentClass);
 	}
 	
