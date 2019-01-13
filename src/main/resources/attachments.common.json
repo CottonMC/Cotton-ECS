@@ -3,7 +3,6 @@
   "package": "hu.frontrider.attachments.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockAttachmentMixin",
     "BlockEntityAttachmentMixin",
     "EntityAttachmentMixin"
   ],

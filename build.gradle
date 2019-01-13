@@ -9,6 +9,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "cottonecs"
+group = "io.github.cottonmc"
 version = "1.0.0"
 repositories {
 }
@@ -44,7 +45,7 @@ publishing {
 		maven(MavenPublication) {
 			from components.java
 		
-			artifactId = "cotton"
+			artifactId = "cotton-ecs"
 			version = version+"-SNAPSHOT" //TODO: just for now, to prevent rejections from artifactory
 			
 			pom.withXml {
