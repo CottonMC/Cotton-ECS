@@ -1,6 +1,9 @@
 plugins {
 	id 'fabric-loom' version '0.2.0-SNAPSHOT'
+	id "com.jfrog.artifactory" version "4.9.0"
 }
+
+apply plugin: "maven-publish"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -22,5 +25,77 @@ dependencies {
 	modCompile "net.fabricmc:fabric:0.1.3.68"
     
     //modCompile "com.github.CottonMC:cotton:master-SNAPSHOT"
-    modCompile "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+}
+
+task sourcesJar(type: Jar) {
+	baseName = archivesBaseName
+	classifier = "sources"
+	from sourceSets.main.allSource
+	from sourceSets.main.resources
+}
+
+if(rootProject.file('private.gradle').exists()) { //gives people more ways to configure the project for publish
+	apply from: 'private.gradle';
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			from components.java
+		
+			artifactId = "cotton"
+			version = version+"-SNAPSHOT" //TODO: just for now, to prevent rejections from artifactory
+			
+			pom.withXml {
+				def pomFile = asNode()
+				def depsNode = pomFile.get("dependencies");
+				pomFile.remove(depsNode);
+				
+				def newDeps = pomFile.appendNode("dependencies");
+				configurations.modCompile.getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+					def artifactNode = newDeps.appendNode("dependency")
+					artifactNode.appendNode('groupId', it.moduleGroup)
+					artifactNode.appendNode('artifactId', it.moduleName)
+					artifactNode.appendNode('version', it.moduleVersion)
+				}
+			}
+			artifacts = [
+				artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
+					classifier null
+					builtBy remapJar
+				},
+				artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}-dev.jar") { //release jar - file location not provided anywhere in loom
+					classifier "dev"
+					builtBy remapJar
+				},
+				artifact (tasks.sourcesJar)
+			]
+		}
+	}
+
+	repositories {
+		if (rootProject.ext.has("localMavenUrl")) {
+			maven {
+				url = rootProject.ext.localMavenUrl;
+			}
+		}
+	}
+}
+
+artifactory {
+	contextUrl = 'http://server.bbkr.space:8081/artifactory/'
+	publish {
+		repository {
+			repoKey = "libs-snapshot-local"
+			username = System.getProperty("artifactoryUser")
+			password = System.getProperty("artifactoryPassword")
+		}
+		defaults {
+			publications('maven')
+			
+			publishArtifacts = true
+			publishPom = true
+		}
+	}
 }

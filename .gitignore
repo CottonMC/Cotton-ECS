@@ -45,3 +45,6 @@ Thumbs.db
 .DS_Store
 local.properties
 .directory
+
+# gradle
+!gradle-wrapper.jar
