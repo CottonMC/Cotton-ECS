@@ -10,7 +10,7 @@ targetCompatibility = 1.8
 
 archivesBaseName = "cottonecs"
 group = "io.github.cottonmc"
-version = "1.0.0"
+version = "1.0.0+19w03a"
 repositories {
 }
 
@@ -18,8 +18,8 @@ minecraft {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:18w50a"
-	mappings "net.fabricmc:yarn:18w50a.2"
+	minecraft "com.mojang:minecraft:19w03a"
+	mappings "net.fabricmc:yarn:19w03a.7"
 	modCompile "net.fabricmc:fabric-loader:0.3.1.82"
     
 	// Fabric API. This is technically optional, but you probably want it anyway.
@@ -85,18 +85,22 @@ publishing {
 }
 
 artifactory {
-	contextUrl = 'http://server.bbkr.space:8081/artifactory/'
-	publish {
-		repository {
-			repoKey = "libs-snapshot-local"
-			username = System.getProperty("artifactoryUser")
-			password = System.getProperty("artifactoryPassword")
+	if (project.hasProperty("artifactoryUsername")) {
+		contextUrl = 'http://server.bbkr.space:8081/artifactory/'
+		publish {
+			repository {
+				repoKey = "libs-snapshot-local"
+				username = artifactoryUsername
+				password = artifactoryPassword
+			}
+			defaults {
+				publications('maven')
+				
+				publishArtifacts = true
+				publishPom = true
+			}
 		}
-		defaults {
-			publications('maven')
-			
-			publishArtifacts = true
-			publishPom = true
-		}
+	} else {
+		println "Cannot configure artifactory; please define ext.artifactoryUsername and ext.artifactoryPassword before running artifactoryPublish"
 	}
 }
