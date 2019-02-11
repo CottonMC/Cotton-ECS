@@ -23,7 +23,6 @@ public interface SidedComponentContainer {
 	 * Registers a non-standard component to this container for all sides. If there was previously a component registered
 	 * for this interface and key for *any* side, nothing is registered and false is returned.
 	 * @param <T> the Type of the interface that describes the provided Component's behavior.
-	 * @param side the Direction which the Component is being registered for, from the perspective of the container.
 	 * @param componentClass the interface that describes the provided Component's behavior.
 	 * @param key the key to register the Component under
 	 * @param component the Component to register
@@ -44,7 +43,6 @@ public interface SidedComponentContainer {
 	
 	/**
 	 * Gets the complete set of valid keys for the specified component class.
-	 * @param <T> the Type of the interface that describes the target Component's behavior.
 	 * @param componentClass the interface that describes the target Component's behavior.
 	 * @param side the side to inspect for Components of the specified type.
 	 * @return A set of keys which can be used to retrieve components of this type, or an empty set if the Component isn't provided.

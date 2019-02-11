@@ -10,7 +10,7 @@ targetCompatibility = 1.8
 
 archivesBaseName = "cottonecs"
 group = "io.github.cottonmc"
-version = "1.0.0+19w05a"
+version = "1.0.0+19w06a"
 repositories {
 }
 
@@ -18,12 +18,12 @@ minecraft {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:19w05a"
-	mappings "net.fabricmc:yarn:19w05a.6"
-	modCompile "net.fabricmc:fabric-loader:0.3.1.82"
-    
+	minecraft "com.mojang:minecraft:19w06a"
+	mappings "net.fabricmc:yarn:19w06a.3"
+	modCompile "net.fabricmc:fabric-loader:0.3.5.106"
+
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modCompile "net.fabricmc:fabric:0.1.3.68"
+	modCompile "net.fabricmc:fabric:0.2.0.89"
     
     //modCompile "com.github.CottonMC:cotton:master-SNAPSHOT"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
