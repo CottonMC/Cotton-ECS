@@ -1,0 +1,22 @@
+ext {
+	projectName = "cottonecs";
+	group = "io.github.cottonmc";
+	version = "1.0.0+19w08a";
+	snapshot = true;
+
+	minecraft = "19w08a";
+	mappings = "19w08a.4";
+	loader = "0.3.7.108";
+	fabricMod = "0.2.2.103";
+	silkMod = null;
+	jankson = null; //If needsShadow is false, jankson will not be included!
+
+	needsShadow = false;
+} 
+
+repositories {
+}
+
+dependencies {
+	implementation "com.google.code.findbugs:jsr305:3.0.2";
+}
