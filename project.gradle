@@ -1,5 +1,5 @@
 ext {
-	projectName = "cottonecs";
+	projectName = "cotton-ecs";
 	group = "io.github.cottonmc";
 	version = "1.0.0+19w11b";
 	snapshot = true;
@@ -12,7 +12,7 @@ ext {
 	jankson = null; //If needsShadow is false, jankson will not be included!
 
 	needsShadow = false;
-} 
+}
 
 repositories {
 }
