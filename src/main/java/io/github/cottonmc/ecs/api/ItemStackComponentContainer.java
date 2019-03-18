@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public interface ItemComponentContainer {
+public interface ItemStackComponentContainer {
 	/**
 	 * Regsters a non-standard component to this container.
 	 * @param stack the ItemStack to register to.
