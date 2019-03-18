@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableSet;
 import io.github.cottonmc.ecs.api.Component;
 import io.github.cottonmc.ecs.api.ComponentContainer;
 import io.github.cottonmc.ecs.api.ComponentRegistry;
-import io.github.cottonmc.ecs.api.SidedComponentContainer;
+import io.github.cottonmc.ecs.api.BlockComponentContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -23,25 +23,11 @@ import net.minecraft.util.math.Direction;
 /**
  * 
  */
-public class ComponentContainerImpl implements ComponentContainer, SidedComponentContainer {
+public class ComponentContainerImpl implements ComponentContainer {
 	protected List<Entry<? extends Component>> entries = new ArrayList<>();
 	protected Set<String> keySet = new HashSet<>();
 	
-	//implements ComponentContainer, SidedComponentContainer {
-		@Override
-		public <T extends Component> boolean registerExtraComponent(Direction side, Class<T> componentClass, String key, T component) {
-			return registerExtraComponent(componentClass, key, component);
-		}
-		
-		@Override
-		public <T extends Component> T getComponent(Direction side, Class<T> componentClass, String key) {
-			return get(componentClass, key);
-		}
-		
-		@Override
-		public Set<String> getComponentKeys(Direction side, Class<? extends Component> componentClass) {
-			return ImmutableSet.copyOf(keySet);
-		}
+	//implements ComponentContainer {
 		
 		@Override
 		public <T extends Component> boolean registerExtraComponent(Class<T> componentClass, String key, T component) {

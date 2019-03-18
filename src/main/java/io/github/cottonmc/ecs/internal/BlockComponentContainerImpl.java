@@ -3,12 +3,14 @@ package io.github.cottonmc.ecs.internal;
 
 import io.github.cottonmc.ecs.api.Component;
 import io.github.cottonmc.ecs.api.ComponentRegistry;
-import io.github.cottonmc.ecs.api.SidedComponentContainer;
+import io.github.cottonmc.ecs.api.BlockComponentContainer;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
@@ -21,14 +23,15 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.world.World;
 
-public class SidedComponentContainerImpl implements SidedComponentContainer {
+public class BlockComponentContainerImpl implements BlockComponentContainer {
 	protected List<Entry<? extends Component>> entries = new ArrayList<>();
 	protected Set<String> keySet = new HashSet<>();
 	
-	//implements SidedComponentContainer {
+	//implements BlockComponentContainer {
 		@Override
-		public <T extends Component> boolean registerExtraComponent(Direction side, Class<T> componentClass, String key, T component) {
+		public <T extends Component> boolean registerExtraComponent(BlockState state, World world, BlockPos pos, Direction side, Class<T> componentClass, String key, T component) {
 			Entry<T> existing = getEntry(componentClass, component, key);
 			if (existing!=null) {
 				existing.directions.add(side);
@@ -37,7 +40,7 @@ public class SidedComponentContainerImpl implements SidedComponentContainer {
 				if (contains(side, componentClass, key)) {
 					return false;
 				} else {
-					Entry<T> entry = new Entry<>(componentClass, key, component, false);
+					Entry<T> entry = new Entry<>(state, world, pos, componentClass, key, component, false);
 					entry.directions.add(side);
 					entries.add(entry);
 					keySet.add(key);
@@ -66,19 +69,19 @@ public class SidedComponentContainerImpl implements SidedComponentContainer {
 		}
 	
 		@Override
-		public <T extends Component> T getComponent(Direction side, Class<T> componentClass, String key) {
+		public <T extends Component> T getComponent(BlockState state, World world, BlockPos pos, Direction side, Class<T> componentClass, String key) {
 			return get(side, componentClass, key);
 		}
 	
 		@Override
-		public Set<String> getComponentKeys(Direction side, Class<? extends Component> componentClass) {
+		public Set<String> getComponentKeys(BlockState state, World world, BlockPos pos, Direction side, Class<? extends Component> componentClass) {
 			return ImmutableSet.copyOf(keySet);
 		}
 	//}
 	
-	public <T extends Component> boolean register(Direction side, Class<T> componentClass, String key, T component) {
+	public <T extends Component> boolean register(BlockState state, World world, BlockPos pos, Direction side, Class<T> componentClass, String key, T component) {
 		if (contains(side, componentClass, key)) return false;
-		entries.add(new Entry<T>(componentClass, key, component, true));
+		entries.add(new Entry<T>(state, world, pos, componentClass, key, component, true));
 		keySet.add(key);
 		return true;
 	}
@@ -165,19 +168,35 @@ public class SidedComponentContainerImpl implements SidedComponentContainer {
 	}
 	
 	protected static class Entry<T> {
+		BlockState state;
+		World world;
+		BlockPos pos;
 		Class<T> clazz;
 		T component;
 		String key;
 		EnumSet<Direction> directions = EnumSet.noneOf(Direction.class);
 		boolean builtin;
 		
-		public Entry(Class<T> componentClass, String key, T component) {
+		public Entry(BlockState state, World world, BlockPos pos, Class<T> componentClass, String key, T component) {
+			this.state = state;
+			this.world = world;
+			this.pos = pos;
 			this.clazz = componentClass;
 			this.key = key;
 			this.component = component;
 			this.builtin = true;
 		}
 		
+		public Entry(BlockState state, World world, BlockPos pos, Class<T> componentClass, String key, T component, boolean builtin) {
+			this.state = state;
+			this.world = world;
+			this.pos = pos;
+			this.clazz = componentClass;
+			this.key = key;
+			this.component = component;
+			this.builtin = builtin;
+		}
+
 		public Entry(Class<T> componentClass, String key, T component, boolean builtin) {
 			this.clazz = componentClass;
 			this.key = key;
