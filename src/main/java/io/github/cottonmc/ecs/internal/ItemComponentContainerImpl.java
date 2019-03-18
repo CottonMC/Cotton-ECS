@@ -3,13 +3,14 @@ package io.github.cottonmc.ecs.internal;
 import com.google.common.collect.ImmutableSet;
 import io.github.cottonmc.ecs.api.Component;
 import io.github.cottonmc.ecs.api.ComponentRegistry;
-import io.github.cottonmc.ecs.api.ItemStackComponentContainer;
+import io.github.cottonmc.ecs.api.ItemComponentContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.Identifier;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,12 +18,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class ItemStackComponentContainerImpl implements ItemStackComponentContainer {
+public class ItemComponentContainerImpl implements ItemComponentContainer {
 
 	protected List<Entry<? extends Component>> entries = new ArrayList<>();
 	protected Set<String> keySet = new HashSet<>();
 
-	//implements ItemStackComponentContainer {
+	//implements ItemComponentContainer {
 
 	@Override
 	public <T extends Component> boolean registerExtraComponent(ItemStack stack, Class<T> componentClass, String key, T component) {
