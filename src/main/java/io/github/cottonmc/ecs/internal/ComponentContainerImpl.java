@@ -13,12 +13,10 @@ import com.google.common.collect.ImmutableSet;
 import io.github.cottonmc.ecs.api.Component;
 import io.github.cottonmc.ecs.api.ComponentContainer;
 import io.github.cottonmc.ecs.api.ComponentRegistry;
-import io.github.cottonmc.ecs.api.BlockComponentContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
 
 /**
  * 
